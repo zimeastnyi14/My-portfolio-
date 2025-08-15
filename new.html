@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wayne Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+        
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1.5s ease;
+        }
+        
+        .loader-inner {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+        
+        .loader-block {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(45deg, #00f7ff, #ff00e6);
+            border-radius: 2px;
+            animation: loaderAnim 1.8s ease infinite;
+        }
+        
+        @keyframes loaderAnim {
+            0%, 100% { transform: translate(0,0); }
+            25% { transform: translate(60px,0); }
+            50% { transform: translate(60px,60px); }
+            75% { transform: translate(0,60px); }
+        }
+        
+        .loader-text {
+            margin-top: 20px;
+            color: #00f7ff;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            font-size: 14px;
+            animation: pulse 2s ease infinite;
+        }
+        
+        :root {
+            --primary: #dc2626;
+            --secondary: #b91c1c;
+            --dark: #000000;
+            --light: #ffffff;
+            --accent: #ef4444;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: radial-gradient(circle at center, #000000 0%, #0a0a1a 70%, #1a1a2e 100%);
+            color: white;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        /* Enhanced Particle Background */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translateZ(0);
+            will-change: transform, opacity;
+            mix-blend-mode: screen;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .holographic-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px) saturate(200%);
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            will-change: transform, box-shadow, backdrop-filter;
+        }
+        
+        .holographic-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                45deg,
+                rgba(220, 38, 38, 0.1) 0%,
+                rgba(239, 68, 68, 0.1) 100%
+            );
+            z-index: -1;
+            border-radius: inherit;
+        }
+        
+        .holographic-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent,
+                transparent,
+                transparent,
+                var(--primary)
+            );
+            transform: rotate(30deg);
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .holographic-card:hover {
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.3);
+            transform: translateY(-5px) scale(1.02);
+            transition-duration: 0.3s;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px var(--primary);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            transform: translateZ(0);
+        }
+        
+        .hexagon {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 1.5s ease;
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 12px;
+            width: 2px;
+            height: calc(100% - 12px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .contact-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+        
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(220, 38, 38, 0.8) 0%,
+                rgba(0, 247, 255, 0.5) 50%,
+                transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(1);
+            mix-blend-mode: overlay;
+            filter: blur(8px);
+            transition: 
+                transform 0.15s cubic-bezier(.17,.67,.83,.67), 
+                width 0.2s cubic-bezier(.17,.67,.83,.67), 
+                height 0.2s cubic-bezier(.17,.67,.83,.67),
+                background 0.3s ease;
+            will-change: transform, filter;
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+        }
+        
+        .cursor-follower.active {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 0, 230, 0.6), transparent 70%);
+            transform: translate(-50%, -50%) scale(0.8);
+            transition-duration: 0.2s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .floating {
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .holographic-card {
+                backdrop-filter: none;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden">
+    <!-- Loading Animation -->
+    <div class="loader">
+        <div class="loader-inner">
+            <div class="loader-block" style="animation-delay: 0s"></div>
+            <div class="loader-block" style="animation-delay: 0.2s"></div>
+            <div class="loader-block" style="animation-delay: 0.4s"></div>
+            <div class="loader-block" style="animation-delay: 0.6s"></div>
+        </div>
+        <div class="loader-text">LOADING PORTFOLIO</div>
+    </div>
+    
+    <!-- Cursor Follower -->
+    <div class="cursor-follower"></div>
+    
+    <!-- Particle Background -->
+    <div id="particles"></div>
+    
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 pt-24 pb-12 relative z-10">
+        <!-- Menu Button -->
+        <button id="menu-toggle" class="fixed top-4 right-4 z-50 p-3 bg-red-600 hover:bg-red-700 rounded-full shadow-lg transition">
+            <i class="fas fa-bars text-white"></i>
+        </button>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-40 flex flex-col items-center justify-center space-y-8 translate-x-full transition-transform duration-300">
+            <button id="menu-close" class="absolute top-4 right-4 p-3 text-white">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            <a href="#home" class="text-white text-2xl hover:text-red-500 transition">Home</a>
+            <a href="#about" class="text-white text-2xl hover:text-red-500 transition">About</a>
+            <a href="#skills" class="text-white text-2xl hover:text-red-500 transition">Skills</a>
+            <a href="#projects" class="text-white text-2xl hover:text-red-500 transition">Projects</a>
+            <a href="#experience" class="text-white text-2xl hover:text-red-500 transition">Experience</a>
+            <a href="#contact" class="text-white text-2xl hover:text-red-500 transition">Contact</a>
+        </div>
+        
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center justify-center relative">
+            <div class="holographic-card p-8 md:p-12 max-w-4xl mx-auto text-center">
+                <div class="hexagon w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-[#00f7ff] to-[#ff00e6] flex items-center justify-center floating">
+                    <div class="hexagon w-28 h-28 bg-[#0f172a] flex items-center justify-center">
+                        <span class="text-4xl">👨‍💻</span>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 glow-text">WAYNE <span class="gradient-text">VHENDUKA</span></h1>
+                <h2 class="text-xl md:text-2xl mb-6 gradient-text">CREATIVE DEVELOPER & DESIGNER</h2>
+                <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
+                    Crafting immersive digital experiences with cutting-edge technology and innovative design. 
+                    Specializing in interactive web applications and futuristic UI/UX.
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#projects" class="px-6 py-3 bg-gradient-to-r from-[#dc2626] to-[#b91c1c] rounded-full font-bold hover:shadow-lg hover:shadow-[#dc2626]/30 transition">View Work</a>
+                    <a href="#contact" class="px-6 py-3 border border-[#dc2626] rounded-full font-bold hover:bg-[#dc2626]/10 transition">Contact Me</a>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-10 left-0 right-0 text-center">
+                <a href="#about" class="inline-block animate-bounce">
+                    <i class="fas fa-chevron-down text-2xl text-[#00f7ff]"></i>
+                </a>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="py-20">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center glow-text">ABOUT <span class="gradient-text">ME</span></h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="holographic-card p-8 relative overflow-hidden">
+                    <div class="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-[#ff00e6] opacity-10 blur-3xl"></div>
+                    <div class="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-[#00f7ff] opacity-10 blur-3xl"></div>
+                    
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">Who Am I?</h3>
+                    <p class="text-gray-300 mb-4">
+                        I'm a passionate developer and designer with 2 years of experience creating digital experiences that blend form and function. My journey began with a curiosity for how things work, which evolved into a career crafting elegant solutions to complex problems.
+                    </p>
+                    <p class="text-gray-300 mb-6">
+                        When I'm not coding, you can find me experimenting with new design tools, contributing to open-source projects, or exploring the latest in AR/VR technology.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-[#00f7ff] mr-2"></i>
+                            <span>Harare</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-[#00f7ff] mr-2"></i>
+                            <span>wvhenduka1@gmail.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-[#00f7ff] mr-2"></i>
+                            <span>+263787493303</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-birthday-cake text-[#00f7ff] mr-2"></i>
+                            <span>February 07, 2006</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="holographic-card p-6 text-center">
+                        <div class="text-4xl mb-2 gradient-text font-bold">2+</div>
+                        <div class="text-gray-300">Years Experience</div>
+                    </div>
+                    <div class="holographic-card p-6 text-center">
+                        <div class="text-4xl mb-2 gradient-text font-bold">5+</div>
+                        <div class="text-gray-300">Projects Completed</div>
+                    </div>
+                    <div class="holographic-card p-6 text-center">
+                        <div class="text-4xl mb-2 gradient-text font-bold">3+</div>
+                        <div class="text-gray-300">Happy Clients</div>
+                    </div>
+                    <div class="holographic-card p-6 text-center">
+                        <div class="text-4xl mb-2 gradient-text font-bold">0</div>
+                        <div class="text-gray-300">Awards Won</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills" class="py-20">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center glow-text">MY <span class="gradient-text">SKILLS</span></h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="holographic-card p-8">
+                    <h3 class="text-2xl font-bold mb-6 gradient-text">Technical Skills</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>HTML/CSS</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>JavaScript</span>
+                                <span>50%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>React</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 25%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Node.js</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 25%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>UI/UX Design</span>
+                                <span>55%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 55%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="holographic-card p-8">
+                    <h3 class="text-2xl font-bold mb-6 gradient-text">Professional Skills</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Communication</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Teamwork</span>
+                                <span>10%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Project Management</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Creativity</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Problem Solving</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="holographic-card p-4 flex flex-col items-center justify-center">
+                    <i class="fab fa-html5 text-4xl mb-2 text-[#e34f26]"></i>
+                    <span>HTML5</span>
+                </div>
+                <div class="holographic-card p-4 flex flex-col items-center justify-center">
+                    <i class="fab fa-css3-alt text-4xl mb-2 text-[#1572b6]"></i>
+                    <span>CSS3</span>
+                </div>
+                <div class="holographic-card p-4 flex flex-col items-center justify-center">
+                    <i class="fab fa-js text-4xl mb-2 text-[#f7df1e]"></i>
+                    <span>JavaScript</span>
+                </div>
+                <div class="holographic-card p-4 flex flex-col items-center justify-center">
+                    <i class="fab fa-react text-4xl mb-2 text-[#61dafb]"></i>
+                    <span>React</span>
+                </div>
+                <div class="holographic-card p-4 flex flex-col items-center justify-center">
+                    <i class="fab fa-node-js text-4xl mb-2 text-[#68a063]"></i>
+                    <span>Node.js</span>
+                </div>
+                <div class="holographic-card p-4 flex flex-col items-center justify-center">
+                    <i class="fab fa-python text-4xl mb-2 text-[#f24e1e]"></i>
+                    <span>Python</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Projects Section -->
+        <section id="projects" class="py-20">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center glow-text">MY <span class="gradient-text">PROJECTS</span></h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card holographic-card overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-[#00f7ff] to-[#ff00e6] relative">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <span class="text-6xl">🌌</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 gradient-text">SentinelX V5.0</h3>
+                        <p class="text-gray-300 mb-4">An interactive analytics dashboard with real-time data visualization and custom reporting tools.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">React</span>
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">D3.js</span>
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">Node.js</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-[#00f7ff] hover:text-white transition">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="#" class="text-[#00f7ff] hover:text-white transition">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card holographic-card overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-[#ff00e6] to-[#ff9900] relative">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <span class="text-6xl">🛒</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 gradient-text">E-Commerce Platform</h3>
+                        <p class="text-gray-300 mb-4">A full-featured online store with product management, cart system, and secure checkout.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">Next.js</span>
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">Stripe</span>
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">MongoDB</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-[#00f7ff] hover:text-white transition">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="#" class="text-[#00f7ff] hover:text-white transition">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card holographic-card overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-[#ff9900] to-[#00f7ff] relative">
+                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <span class="text-6xl">🎮</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 gradient-text">VR Game Prototype</h3>
+                        <p class="text-gray-300 mb-4">An immersive virtual reality experience with physics-based interactions and multiplayer support.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">Unity</span>
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">C#</span>
+                            <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">Oculus SDK</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-[#00f7ff] hover:text-white transition">
+                                <i class="fas fa-external-link-alt"></i> Demo Video
+                            </a>
+                            <a href="#" class="text-[#00f7ff] hover:text-white transition">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="px-6 py-3 border border-[#00f7ff] rounded-full font-bold hover:bg-[#00f7ff]/10 transition inline-flex items-center">
+                    View All Projects <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Experience Section -->
+        <section id="experience" class="py-20">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center glow-text">WORK <span class="gradient-text">EXPERIENCE</span></h2>
+            
+            <div class="max-w-3xl mx-auto relative">
+                <!-- Timeline -->
+                <div class="space-y-8 relative pl-8">
+                    <!-- Timeline item 1 -->
+                    <div class="timeline-item relative pl-6">
+                        <div class="holographic-card p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold gradient-text">Junior Frontend Developer</h3>
+                                <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">2025 - Present</span>
+                            </div>
+                            <h4 class="text-lg mb-2">TechVision Inc.</h4>
+                            <p class="text-gray-300">
+                                Lead a team of developers to build responsive web applications using React and Next.js. Implemented performance optimizations that reduced load times by 40%. Collaborated with designers to create a design system used across all company products.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline item 2 -->
+                    <div class="timeline-item relative pl-6">
+                        <div class="holographic-card p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold gradient-text">UI/UX Designer</h3>
+                                <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">2018 - 2021</span>
+                            </div>
+                            <h4 class="text-lg mb-2">Digital Creations</h4>
+                            <p class="text-gray-300">
+                                Designed user interfaces for web and mobile applications. Conducted user research and usability testing to inform design decisions. Created interactive prototypes that improved client understanding of proposed solutions.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline item 3 -->
+                    <div class="timeline-item relative pl-6">
+                        <div class="holographic-card p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold gradient-text">Junior Developer</h3>
+                                <span class="px-2 py-1 bg-[#00f7ff]/10 text-[#00f7ff] text-xs rounded">2016 - 2018</span>
+                            </div>
+                            <h4 class="text-lg mb-2">WebSolutions LLC</h4>
+                            <p class="text-gray-300">
+                                Developed and maintained client websites using HTML, CSS, and JavaScript. Assisted senior developers with complex projects. Implemented responsive designs that improved mobile user experience.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="py-20">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center glow-text">GET IN <span class="gradient-text">TOUCH</span></h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="holographic-card p-8">
+                    <h3 class="text-2xl font-bold mb-6 gradient-text">Contact Information</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-[#00f7ff]/10 p-3 rounded-full mr-4">
+                                <i class="fas fa-map-marker-alt text-[#00f7ff]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Location</h4>
+                                <p class="text-gray-300">Glen View 3, Harare</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#00f7ff]/10 p-3 rounded-full mr-4">
+                                <i class="fas fa-envelope text-[#00f7ff]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Email</h4>
+                                <p class="text-gray-300">wvhenduka1@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#00f7ff]/10 p-3 rounded-full mr-4">
+                                <i class="fas fa-phone text-[#00f7ff]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Phone</h4>
+                                <p class="text-gray-300">+263787493303</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-[#00f7ff]/10 p-3 rounded-full mr-4">
+                                <i class="fas fa-clock text-[#00f7ff]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Working Hours</h4>
+                                <p class="text-gray-300">Mon-Fri: 9AM - 5PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-bold mb-4">Follow Me</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 rounded-full bg-[#00f7ff]/10 flex items-center justify-center text-[#00f7ff] hover:bg-[#00f7ff] hover:text-white transition">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-[#00f7ff]/10 flex items-center justify-center text-[#00f7ff] hover:bg-[#00f7ff] hover:text-white transition">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-[#00f7ff]/10 flex items-center justify-center text-[#00f7ff] hover:bg-[#00f7ff] hover:text-white transition">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-[#00f7ff]/10 flex items-center justify-center text-[#00f7ff] hover:bg-[#00f7ff] hover:text-white transition">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="holographic-card p-8">
+                    <h3 class="text-2xl font-bold mb-6 gradient-text">Send Me a Message</h3>
+                    
+                    <form>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block mb-2">Your Name</label>
+                                <input type="text" class="w-full contact-input px-4 py-3 rounded-lg focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Your Email</label>
+                                <input type="email" class="w-full contact-input px-4 py-3 rounded-lg focus:outline-none">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block mb-2">Subject</label>
+                            <input type="text" class="w-full contact-input px-4 py-3 rounded-lg focus:outline-none">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block mb-2">Message</label>
+                            <textarea rows="5" class="w-full contact-input px-4 py-3 rounded-lg focus:outline-none"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full px-6 py-3 bg-gradient-to-r from-[#00f7ff] to-[#00a2ff] rounded-full font-bold hover:shadow-lg hover:shadow-[#00f7ff]/30 transition">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Privacy Policy Section -->
+    <section id="privacy" class="py-20 bg-black/50 backdrop-blur-lg">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center glow-text">PRIVACY <span class="gradient-text">POLICY</span></h2>
+            <div class="holographic-card p-8 max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Information Collection</h3>
+                <p class="text-gray-300 mb-6">
+                    We collect minimal personal information necessary to provide our services. This may include name, email address, and usage data when you contact us or use our website.
+                </p>
+                
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Data Usage</h3>
+                <p class="text-gray-300 mb-6">
+                    Your information is used solely to respond to inquiries and improve our services. We do not sell or share your data with third parties except as required by law.
+                </p>
+                
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Cookies</h3>
+                <p class="text-gray-300 mb-6">
+                    This website uses essential cookies for functionality. You can disable cookies in your browser settings, but some features may not work properly.
+                </p>
+                
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Security</h3>
+                <p class="text-gray-300">
+                    We implement appropriate security measures to protect your personal information. However, no internet transmission is 100% secure.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms of Service Section -->
+    <section id="terms" class="py-20 bg-black/50 backdrop-blur-lg">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center glow-text">TERMS OF <span class="gradient-text">SERVICE</span></h2>
+            <div class="holographic-card p-8 max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Acceptance</h3>
+                <p class="text-gray-300 mb-6">
+                    By using this website, you agree to these terms. If you disagree, please discontinue use immediately.
+                </p>
+                
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Intellectual Property</h3>
+                <p class="text-gray-300 mb-6">
+                    All content on this site is my original work unless otherwise noted. Unauthorized use or reproduction is prohibited.
+                </p>
+                
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Limitations</h3>
+                <p class="text-gray-300 mb-6">
+                    I provide this portfolio for informational purposes only. I'm not liable for any damages resulting from its use.
+                </p>
+                
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Changes</h3>
+                <p class="text-gray-300">
+                    I may update these terms periodically. Continued use after changes constitutes acceptance of the new terms.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-black border-t border-[#333333]">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Wayne Vhenduka</h3>
+                    <p class="text-gray-400">Creating digital experiences that inspire and engage users through innovative design and development.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-[#6366f1] transition">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-[#6366f1] transition">About</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-[#6366f1] transition">Projects</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-[#6366f1] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400">Web Development</li>
+                        <li class="text-gray-400">UI/UX Design</li>
+                        <li class="text-gray-400">Consulting</li>
+                        <li class="text-gray-400">Prototyping</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#1e293b] flex items-center justify-center text-white hover:bg-[#6366f1] transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#1e293b] flex items-center justify-center text-white hover:bg-[#6366f1] transition">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#1e293b] flex items-center justify-center text-white hover:bg-[#6366f1] transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#1e293b] flex items-center justify-center text-white hover:bg-[#6366f1] transition">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-[#1e293b] mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2025 Wayne Vhenduka. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#privacy" class="text-gray-400 hover:text-[#6366f1] transition">Privacy Policy</a>
+                    <a href="#terms" class="text-gray-400 hover:text-[#6366f1] transition">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-[#6366f1] transition">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Create enhanced particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = Math.floor(window.innerWidth / 10);
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 5 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 10;
+                const opacity = Math.random() * 0.5 + 0.1;
+                const color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`;
+                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${posX}%;
+                    top: ${posY}%;
+                    background: ${color};
+                    opacity: ${opacity};
+                    animation: float ${duration}s ease-in-out ${delay}s infinite;
+                    box-shadow: 0 0 ${size * 2}px ${size}px ${color};
+                `;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Cursor follower
+        function initCursorFollower() {
+            const cursor = document.querySelector('.cursor-follower');
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+                
+                // Interactive elements glow effect
+                const hoverElements = document.querySelectorAll('a, button, .holographic-card, input, textarea');
+                hoverElements.forEach(el => {
+                    if (el.matches(':hover')) {
+                        const rect = el.getBoundingClientRect();
+                        const centerX = rect.left + rect.width / 2;
+                        const centerY = rect.top + rect.height / 2;
+                        
+                        const distance = Math.sqrt(
+                            Math.pow(e.clientX - centerX, 2) + 
+                            Math.pow(e.clientY - centerY, 2)
+                        );
+                        
+                        const maxDistance = Math.max(rect.width, rect.height) / 2;
+                        const scale = 1 + (1 - Math.min(distance / maxDistance, 1)) * 2;
+                        
+                        cursor.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                        cursor.style.opacity = '0.5';
+                    }
+                });
+            });
+            
+            document.addEventListener('mouseleave', () => {
+                cursor.style.opacity = '0';
+            });
+            
+            document.addEventListener('mouseenter', () => {
+                cursor.style.opacity = '0.5';
+            });
+        }
+        
+        // Animate skill bars on scroll
+        function animateSkills() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const width = entry.target.style.width;
+                        entry.target.style.width = '0';
+                        setTimeout(() => {
+                            entry.target.style.width = width;
+                        }, 100);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            skillBars.forEach(bar => {
+                observer.observe(bar);
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        function initSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide loader when everything is loaded
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const loader = document.querySelector('.loader');
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        
+                        // Fade in content
+                        document.querySelector('.container').style.animation = 'fadeIn 1s ease forwards';
+                        document.querySelector('.container').style.opacity = '0';
+                    }, 500);
+                }, 1000);
+            });
+            
+            createParticles();
+            initCursorFollower();
+            animateSkills();
+            initSmoothScrolling();
+            
+            // Enhanced tilt effect with parallax
+            const cards = document.querySelectorAll('.holographic-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const angleY = (x - centerX) / 15;
+                    const angleX = (centerY - y) / 15;
+                    const glowX = (x - centerX) / 5;
+                    const glowY = (y - centerY) / 5;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+                    card.style.boxShadow = `${glowX}px ${glowY}px 30px rgba(0, 247, 255, 0.2)`;
+                    
+                    // Animate the pseudo-element
+                    card.style.setProperty('--x-pos', `${(x / rect.width) * 100}%`);
+                    card.style.setProperty('--y-pos', `${(y / rect.height) * 100}%`);
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+                    card.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+                });
+            });
+            
+            // Add click animation to buttons
+            document.querySelectorAll('a, button').forEach(btn => {
+                btn.addEventListener('mousedown', () => {
+                    btn.style.transform = 'scale(0.95)';
+                });
+                btn.addEventListener('mouseup', () => {
+                    btn.style.transform = 'scale(1)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
